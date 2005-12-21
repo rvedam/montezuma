@@ -13,7 +13,8 @@
 
     :components ((:file "package")
 		 (:module "document"
-			  :components ((:file "field"))
+			  :components ((:file "field")
+				       (:file "document"))
 			  :depends-on ("package"))))
 
 (defmethod perform ((o test-op) (c (eql (find-system '#:montezuma))))
@@ -26,8 +27,11 @@
   :depends-on (#:montezuma)
   :components ((:module "tests"
 			:components ((:module "unit"
-					      :components ((:module "document"
-								    :components ((:file "field")))))))))
+					      :components ((:file "tests")
+							   (:module "document"
+								    :components ((:file "field")
+										 (:file "document"))
+								    :depends-on ("tests"))))))))
 
 (defmethod asdf:perform ((o asdf:test-op) (c (eql (find-system '#:montezuma-tests))))
   (or (funcall (intern (symbol-name '#:run-tests)
